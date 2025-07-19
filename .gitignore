@@ -1,0 +1,8 @@
+# Exclude virtual environments
+.venv
+
+# Egg info
+mqtt_broker_package.egg-info/
+
+# Pycache files
+__pycache__/
