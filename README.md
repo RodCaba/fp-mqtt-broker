@@ -19,6 +19,7 @@ pip install -e .
 
 ```python
 from fp_mqtt_broker import BrokerFactory
+from fp_mqtt_broker.abstractions import MessageHandler
 
 config = {
     'mqtt': {
@@ -28,7 +29,16 @@ config = {
     }
 }
 
-broker = BrokerFactory.create_broker(config)
+# Define a custom message handler
+class MyMessageHandler(MessageHandler):
+    def get_subscribed_topics(self) -> list:
+        return ['my/topic']
+
+    def handle_message(self, topic: str, payload: str):
+        print(f"Received message on {topic}: {payload}")
+
+# Create and connect the broker with the custom message handler
+broker = BrokerFactory.create_broker(config, [MyMessageHandler()])
 broker.connect()
 ```
 
