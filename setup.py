@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="fp-mqtt-broker-rodrigo",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(),
     author="Rodrigo",
     author_email="rodser4@gmail.com",
