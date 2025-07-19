@@ -6,11 +6,7 @@ class PahoMQTTClient(MQTTClient):
     """Adapter for paho-mqtt client."""
     
     def __init__(self, client_id: str):
-        self.client_id = client_id
-        self._client = mqtt.Client(
-            callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
-            client_id=client_id
-        )
+        self._client = mqtt.Client(client_id)
 
     def connect(self, host: str, port: int, keepalive: int) -> None:
         self._client.connect(host, port, keepalive)

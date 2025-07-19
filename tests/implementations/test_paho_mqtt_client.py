@@ -11,13 +11,9 @@ class TestPahoMQTTClient:
     @patch('fp_mqtt_broker.implementations.paho_mqtt_client.mqtt.Client')
     def test_initialization(self, mock_mqtt_client):
         """Test client initialization"""
-        client = PahoMQTTClient('test_client')
+        PahoMQTTClient('test_client')
         
-        assert client.client_id == 'test_client'
-        mock_mqtt_client.assert_called_once_with(
-            callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
-            client_id='test_client'
-        )
+        mock_mqtt_client.assert_called_once_with('test_client')
 
     @patch('fp_mqtt_broker.implementations.paho_mqtt_client.mqtt.Client')
     def test_connect(self, mock_mqtt_client):

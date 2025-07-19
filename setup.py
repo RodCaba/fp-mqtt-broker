@@ -19,14 +19,14 @@ setup(
         "Source": "https://github.com/RodCaba/fp-mqtt-broker"
     },
     install_requires=[
-        "paho-mqtt>=1.6.1",
+        "paho-mqtt==1.6.1",
     ],
     extras_require={
         "dev": [
-            "pytest>=8.4.1",
-            "pytest-mock>=3.14.1", 
-            "coverage>=7.9.1",
-            "pytest-cov>=6.2.1"
+            "pytest==8.4.1",
+            "pytest-mock==3.14.1",
+            "coverage==7.9.1",
+            "pytest-cov==6.2.1"
         ]
     },
     python_requires=">=3.8"
