@@ -3,8 +3,7 @@
 test_env/
 
 # Egg info
-mqtt_broker_package.egg-info/
-fp_mqtt_broker_rodrigo.egg-info/
+*egg-info/
 
 # Pycache files
 __pycache__/
