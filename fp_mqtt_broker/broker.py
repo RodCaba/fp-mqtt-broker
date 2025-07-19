@@ -3,6 +3,7 @@ import time
 import logging
 import sys
 import socket
+import threading
 from datetime import datetime
 from enum import Enum
 from typing import Dict, Any, Optional, List
@@ -46,6 +47,10 @@ class MQTTBroker:
         self.start_time = time.time()
         self.current_recording_state = RecordingState.IDLE
         self.service_running = False
+
+        # Connection event thread
+        self._connection_result = None
+        self._connection_event = threading.Event()
         
         # Collect all topics from handlers
         self.subscribed_topics = set()
@@ -56,16 +61,33 @@ class MQTTBroker:
         if self.config.topics:
             self.subscribed_topics.update(self.config.topics.values())
 
-    def connect(self) -> bool:
+    def connect(self, timeout: int = 10) -> bool:
         """Connect to the MQTT broker."""
         try:
             logging.info(f"Attempting to connect to MQTT broker at {self.config.broker_host}:{self.config.broker_port}")
+
+            # Set up connection event
+            self._connection_result = None
+            self._connection_event.clear()
+
             self.client.connect(self.config.broker_host, self.config.broker_port, self.config.keepalive)
             self.client.loop_start()
-            
-            logging.info("MQTT broker service started successfully")
-            self.service_running = True
-            return True
+
+            # Wait for connection result
+            if self._connection_event.wait(timeout):
+                if self._connection_result == 0:
+                    logging.info("Connected to MQTT broker successfully")
+                    self.service_running = True
+                    return True
+                else:
+                    logging.error(f"Failed to connect to MQTT broker with code {self._connection_result}")
+                    self.service_running = False
+                    return False
+            else:
+                logging.error("Connection to MQTT broker timed out")
+                self.client.loop_stop()
+                self.service_running = False
+                return False
             
         except Exception as e:
             logging.error(f"Failed to connect to MQTT broker: {str(e)}")
@@ -99,9 +121,10 @@ class MQTTBroker:
     # MQTT Event Handlers
     def on_connect(self, client, userdata, flags, rc):
         """Callback for when the MQTT client connects to the broker"""
-        if rc == 0:
-            logging.info("Connected to MQTT broker successfully")
-            
+        self._connection_result = rc
+        self._connection_event.set()
+        
+        if rc == 0:            
             # Subscribe to all collected topics
             for topic in self.subscribed_topics:
                 self.client.subscribe(topic)

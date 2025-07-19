@@ -19,7 +19,7 @@ class MockMQTTClient(MQTTClient):
         self.callbacks = {}
         
     def connect(self, host: str, port: int, keepalive: int) -> None:
-        self.connected = True
+        pass
         
     def disconnect(self) -> None:
         self.connected = False
