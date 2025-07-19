@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="fp-mqtt-broker",
+    name="fp-mqtt-broker-rodrigo",
     version="0.1.0",
     packages=find_packages(),
     author="Rodrigo",
@@ -12,6 +12,12 @@ setup(
     description="A flexible MQTT broker package for IoT services with optional message handlers",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    url="https://github.com/RodCaba/fp-mqtt-broker",
+    project_urls={
+        "Bug Tracker": "https://github.com/RodCaba/fp-mqtt-broker/issues",
+        "Documentation": "https://github.com/RodCaba/fp-mqtt-broker#readme",
+        "Source": "https://github.com/RodCaba/fp-mqtt-broker"
+    },
     install_requires=[
         "paho-mqtt>=1.6.1",
     ],

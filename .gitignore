@@ -1,8 +1,14 @@
 # Exclude virtual environments
 .venv
+test_env/
 
 # Egg info
 mqtt_broker_package.egg-info/
+fp_mqtt_broker_rodrigo.egg-info/
 
 # Pycache files
 __pycache__/
+
+# PyPI distribution files
+dist/
+.pypirc
