@@ -56,6 +56,19 @@ class MQTTBroker:
         if self.config.topics:
             self.subscribed_topics.update(self.config.topics.values())
 
+        # Attempt to connect to the MQTT broker
+        try:
+            logging.info(f"Attempting to connect to MQTT broker at {self.config.broker_host}:{self.config.broker_port}")
+            self.client.connect(self.config.broker_host, self.config.broker_port, 60)
+            self.client.loop_start()
+            
+            logging.info("MQTT broker service started successfully")
+            self.service_running = True
+
+        except Exception as e:
+            logging.error(f"Failed to connect to MQTT broker: {str(e)}")
+            self.service_running = False
+
     def connect(self) -> bool:
         """Connect to the MQTT broker."""
         try:

@@ -12,3 +12,7 @@ __pycache__/
 # PyPI distribution files
 dist/
 .pypirc
+
+# Files created for manual testing
+app.py
+config.json
